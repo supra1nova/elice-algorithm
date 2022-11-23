@@ -1,32 +1,27 @@
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class week_1_1진법변환 {
 
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
-        List<Integer> intList = Arrays.stream(sc.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
-//        List<Integer> intList = Arrays.stream(sc.next().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
-        int num = intList.get(0);
-        int arithmetic = intList.get(1);
-        String answer = "";
-        while(num > 0){
-            int quotient = num/arithmetic;
-            int remainder = num % arithmetic;
-            answer += remainder;
-            num = quotient;
-            if(quotient < arithmetic){
-                answer += quotient;
-                break;
-            }
-        }
+        String[] strArr = sc.nextLine().split(" ");
 
-        List<String> collect = Arrays.stream(answer.split("")).collect(Collectors.toList());
-        Collections.reverse(collect);
-        String res = "";
-        for(String e : collect){
-            res += e;
+        Integer origNum = Integer.parseInt(strArr[0]);
+        Integer divNum = Integer.parseInt(strArr[1]);
+        List<String> list = new ArrayList<>();
+        if(origNum != 0 || divNum != 0){
+            while(origNum >= divNum){
+                list.add(0, (origNum % divNum) + "");
+                origNum /= divNum;
+            }
+            list.add(0, origNum + "");
         }
-        System.out.println(res);
+        if( origNum == 0 || divNum == 0){
+            System.out.println(0);
+        } else {
+            System.out.println(list.stream().reduce((l, r) -> l + r).get());
+        }
     }
 }
